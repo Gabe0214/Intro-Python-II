@@ -1,6 +1,9 @@
 from room import Room
+from player import Player
+
 
 # Declare all the rooms
+
 
 
 
@@ -41,10 +44,39 @@ room['treasure'].s_to = room['narrow']
 # Main
 #
 
+
+
+def try_again():
+
+    start()
+
 # Make a new player object that is currently in the 'outside' room.
+person = Player(input("Please insert your name: "), room['outside'])
+print(person.current_room.n_to)
+def start():
+    print(f"Welcome, {person.user}! You are standing {person.current_room}")
+    navigate = input("Enter n, s, e, w to move: ")
+    while navigate == "s":
+        try_again()
+    if navigate == "n":
+        print(f'{person.user}, you are now in {person.current_room.n_to}')
+        navigate = input("Where should you go: ")
+        if navigate == "s":
+            print(room['foyer'].n_to)
+    
+        
+
+
+
+start()
+
+
+    
 
 # Write a loop that:
 #
+
+
 # * Prints the current room name
 # * Prints the current description (the textwrap module might be useful here).
 # * Waits for user input and decides what to do.
