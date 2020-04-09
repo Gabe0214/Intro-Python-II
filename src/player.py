@@ -9,8 +9,9 @@ class Player:
         self.user = user
         self.current_room = current_room
 
-    # def __str__(self):
-    #     return(f"Welcome, {self.user}! You're currently in {self.current_room}")
+    def change_current_room(self, changed_room):
+        self.current_room = changed_room
+
 
 
 # person = Player('Gabe', 'myRoom')

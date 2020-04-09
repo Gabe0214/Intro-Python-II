@@ -46,23 +46,53 @@ room['treasure'].s_to = room['narrow']
 
 
 
-def try_again():
-
-    start()
-
 # Make a new player object that is currently in the 'outside' room.
 person = Player(input("Please insert your name: "), room['outside'])
-print(person.current_room.n_to)
+
+# print(person.current_room)
+# person.change_current_room(person.current_room.n_to)
+# print(person.current_room)
+
+def try_again():
+    print("You ran into a trap. It's game over")
+    start()
+
+
+def print_info():
+    print(person.current_room.user)
+
 def start():
-    print(f"Welcome, {person.user}! You are standing {person.current_room}")
-    navigate = input("Enter n, s, e, w to move: ")
-    while navigate == "s":
-        try_again()
-    if navigate == "n":
-        print(f'{person.user}, you are now in {person.current_room.n_to}')
-        navigate = input("Where should you go: ")
+    print(f"Hello, {person.user} You are standing {person.current_room}")
+    navigate = ""
+    while navigate !=  'q':
+        navigate = input("Where should you go?(n, s, e, w to Navigate or q to quit): ")
+        if navigate == "n":
+            if person.current_room.n_to is not None:
+                person.change_current_room(person.current_room.n_to)
+                print(f'You are now in {person.current_room}')
+            else:
+                print("opps")
+                try_again()
+        if navigate == "e":
+            if person.current_room.e_to is not None:
+                 person.change_current_room(person.current_room.e_to)
+                 print(f'You are now in {person.current_room}')
+            else:
+                try_again()
         if navigate == "s":
-            print(room['foyer'].n_to)
+            if person.current_room.s_to is not None:
+                person.change_current_room(person.current_room.s_to)
+                print(f'You are now in {person.current_room}')
+            else: 
+                try_again()
+        if navigate =="w":
+             if person.current_room.w_to is not None:
+                 person.change_current_room(person.current_room.w_to)
+                 print(f"You are in {person.current_room}")
+             else: 
+                 try_again()
+        elif navigate == 'q':
+            print("You have quit the game")        
     
         
 
