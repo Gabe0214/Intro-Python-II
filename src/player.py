@@ -20,6 +20,10 @@ class Player:
         self.player_items.append(item)
         return(f"{self.player_items}")
 
+    def remove_item(self, item):
+        for i in self.player_items:
+            if i == item:
+                self.player_items.remove(item)
 
 # person = Player('Gabe', 'myRoom')
 # print(person.user)

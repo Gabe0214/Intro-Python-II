@@ -47,7 +47,8 @@ room['treasure'].s_to = room['narrow']
 shield = Item('shield', 'protects you from enemies')
 sword = Item('sword', 'defeat your enemies')
 armor = Item('armor', 'greatly, protects you from enemies')
-
+arrows = Item('arrow', 'eliminate creatures from afar')
+key = Item('Boss Key', 'The ultimate key to face the Boss')
 
 # Make a new player object that is currently in the 'outside' room.
 person = Player(input("Please insert your name: "), room['outside'])
@@ -59,8 +60,7 @@ def try_again():
     start()
 
 
-def print_info():
-    print(person.current_room.user)
+
 
 def start():
     print(f"Hello, {person.user} You are standing {person.current_room}. {person.see_inventory()}")
@@ -94,17 +94,31 @@ def start():
             if person.current_room.s_to is not None:
                 person.change_current_room(person.current_room.s_to)
                 print(f'You are now in {person.current_room}')
+                answer = input(f'You have found the {key.name}. Store it?')
+                if answer == 'yes':
+                    person.add_item(key.name)
+                    print(f'{person.see_inventory()}')
+
             else: 
                 try_again()
         if navigate =="w":
              if person.current_room.w_to is not None:
                  person.change_current_room(person.current_room.w_to)
                  print(f"You are in {person.current_room}")
+                 answer = input(f"You Have found {arrows.name}. Do you want to store it? :")
+                 if answer == 'yes':
+                     person.add_item(arrows.name)
+                     print(f'{person.see_inventory()}')
+
              else: 
                  try_again()
-        elif navigate == 'q':
+        if navigate == 'q':
             print("You have quit the game") 
-            break       
+            break
+        if navigate == "d":
+            item = input("What Item do you want to discard? :")    
+            person.remove_item(item)
+            print(f"{person.see_inventory()}")   
     
         
 
