@@ -1,6 +1,6 @@
 from room import Room
 from player import Player
-
+from item import Item
 
 # Declare all the rooms
 
@@ -11,7 +11,7 @@ from player import Player
 
 room = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons"),
+                     "North of you, the cave mount beckons",),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
 passages run north and east."""),
@@ -44,14 +44,15 @@ room['treasure'].s_to = room['narrow']
 # Main
 #
 
+shield = Item('shield', 'protects you from enemies')
+sword = Item('sword', 'defeat your enemies')
+armor = Item('armor', 'greatly, protects you from enemies')
 
 
 # Make a new player object that is currently in the 'outside' room.
 person = Player(input("Please insert your name: "), room['outside'])
 
-# print(person.current_room)
-# person.change_current_room(person.current_room.n_to)
-# print(person.current_room)
+
 
 def try_again():
     print("You ran into a trap. It's game over")
@@ -62,14 +63,19 @@ def print_info():
     print(person.current_room.user)
 
 def start():
-    print(f"Hello, {person.user} You are standing {person.current_room}")
+    print(f"Hello, {person.user} You are standing {person.current_room}. {person.see_inventory()}")
     navigate = ""
-    while navigate !=  'q':
+    while navigate !=  int:
         navigate = input("Where should you go?(n, s, e, w to Navigate or q to quit): ")
         if navigate == "n":
             if person.current_room.n_to is not None:
                 person.change_current_room(person.current_room.n_to)
-                print(f'You are now in {person.current_room}')
+                print(f'You are now in {person.current_room}. ....Whats this? You have found a {sword.name}')
+                answer = input("Do you want to store it your inventory? :")
+                if answer == 'yes':
+                    person.add_item(sword.name)
+                    print(f'{person.see_inventory()}')
+                    continue
             else:
                 print("opps")
                 try_again()
@@ -77,6 +83,11 @@ def start():
             if person.current_room.e_to is not None:
                  person.change_current_room(person.current_room.e_to)
                  print(f'You are now in {person.current_room}')
+                 answer = input(f'You have found {armor.name}! Do you want to store it in your inventory: ')
+                 if answer == 'yes':
+                     person.add_item(armor.name)
+                     print(f'{person.see_inventory()}')
+                     continue
             else:
                 try_again()
         if navigate == "s":
@@ -92,7 +103,8 @@ def start():
              else: 
                  try_again()
         elif navigate == 'q':
-            print("You have quit the game")        
+            print("You have quit the game") 
+            break       
     
         
 

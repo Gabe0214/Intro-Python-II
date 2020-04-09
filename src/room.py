@@ -11,9 +11,14 @@ class Room:
         self.s_to = None
         self.e_to = None
         self.w_to = None
-        
+        self.items = []
+    
     def __str__(self):
         return(f"{self.name}. {self.description}")
+    
+    def store_item(self, item):
+        self.items.append(item)
+        return(f"this room has {self.items}")
         
 
 # myRoom = Room('Dining', 'Where we eat')
