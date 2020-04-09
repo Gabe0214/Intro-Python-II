@@ -1,10 +1,17 @@
 from room import Room
+from player import Player
+from item import Item
 
 # Declare all the rooms
 
+
+
+
+
+
 room = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons"),
+                     "North of you, the cave mount beckons",),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
 passages run north and east."""),
@@ -37,10 +44,95 @@ room['treasure'].s_to = room['narrow']
 # Main
 #
 
+shield = Item('shield', 'protects you from enemies')
+sword = Item('sword', 'defeat your enemies')
+armor = Item('armor', 'greatly, protects you from enemies')
+arrows = Item('arrow', 'eliminate creatures from afar')
+key = Item('Boss Key', 'The ultimate key to face the Boss')
+
 # Make a new player object that is currently in the 'outside' room.
+person = Player(input("Please insert your name: "), room['outside'])
+
+
+
+def try_again():
+    print("You ran into a trap. It's game over")
+    start()
+
+
+
+
+def start():
+    print(f"Hello, {person.user} You are standing {person.current_room}. {person.see_inventory()}")
+    navigate = ""
+    while navigate !=  int:
+        navigate = input("Where should you go?(n, s, e, w to Navigate or q to quit): ")
+        if navigate == "n":
+            if person.current_room.n_to is not None:
+                person.change_current_room(person.current_room.n_to)
+                print(f'You are now in {person.current_room}. ....Whats this? You have found a {sword.name}')
+                answer = input("Do you want to store it your inventory? :")
+                if answer == 'yes':
+                    person.add_item(sword.name)
+                    print(f'{person.see_inventory()}')
+                    continue
+            else:
+                print("opps")
+                try_again()
+        if navigate == "e":
+            if person.current_room.e_to is not None:
+                 person.change_current_room(person.current_room.e_to)
+                 print(f'You are now in {person.current_room}')
+                 answer = input(f'You have found {armor.name}! Do you want to store it in your inventory: ')
+                 if answer == 'yes':
+                     person.add_item(armor.name)
+                     print(f'{person.see_inventory()}')
+                     continue
+            else:
+                try_again()
+        if navigate == "s":
+            if person.current_room.s_to is not None:
+                person.change_current_room(person.current_room.s_to)
+                print(f'You are now in {person.current_room}')
+                answer = input(f'You have found the {key.name}. Store it?')
+                if answer == 'yes':
+                    person.add_item(key.name)
+                    print(f'{person.see_inventory()}')
+
+            else: 
+                try_again()
+        if navigate =="w":
+             if person.current_room.w_to is not None:
+                 person.change_current_room(person.current_room.w_to)
+                 print(f"You are in {person.current_room}")
+                 answer = input(f"You Have found {arrows.name}. Do you want to store it? :")
+                 if answer == 'yes':
+                     person.add_item(arrows.name)
+                     print(f'{person.see_inventory()}')
+
+             else: 
+                 try_again()
+        if navigate == 'q':
+            print("You have quit the game") 
+            break
+        if navigate == "d":
+            item = input("What Item do you want to discard? :")    
+            person.remove_item(item)
+            print(f"{person.see_inventory()}")   
+    
+        
+
+
+
+start()
+
+
+    
 
 # Write a loop that:
 #
+
+
 # * Prints the current room name
 # * Prints the current description (the textwrap module might be useful here).
 # * Waits for user input and decides what to do.
